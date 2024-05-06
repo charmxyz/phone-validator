@@ -2,14 +2,23 @@ document.getElementById('check-btn').addEventListener('click', function() {
     const input = document.getElementById('user-input').value;
     const resultsDiv = document.getElementById('results-div');
 
-    // Ensure results div is visible
+    // Check if the input is empty
+    if (input.trim() === '') {
+        alert('Please provide a phone number');
+        return; // Stop further execution
+    }
+
+    // Make the results div visible
     resultsDiv.style.display = 'block';
 
-    // Remove non-digit characters for validation
-    const cleanInput = input.replace(/[\s()-]/g, '');
+    // Refined regular expression to validate the phone number format
+    const validFormat = /^(1[\s-]?)?(\(\d{3}\)|\d{3})[\s-]?\d{3}[\s-]?\d{4}$/;
 
-    // Check for valid length and first digit conditions
-    if ((cleanInput.length === 10) || (cleanInput[0] === '1' && cleanInput.length === 11 && cleanInput[1] !== '-')) {
+    // Test if the input matches the refined phone number format
+    const isValidFormat = validFormat.test(input);
+
+    // Check for valid number format
+    if (isValidFormat) {
         // Valid number
         resultsDiv.innerHTML += `<p style="color: black;">Valid US number: ${input}</p>`;
     } else {
